@@ -1,16 +1,24 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import "./styles.css"
 
 interface Props {
-    items:string;
-    setItems:React.Dispatch<React.SetStateAction<string>>;
+    item:string;
+    setItem:React.Dispatch<React.SetStateAction<string>>;
+    handleAdd: (e: React.SyntheticEvent) => void;
 }
 
-const InputField:React.FC<Props> = ({items, setItems}) => {
+const InputField:React.FC<Props> = ({item, setItem, handleAdd}) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     return (
-        <form className={"input"}>
+        <form className={"input"}
+              onSubmit={(e) => {
+                  handleAdd(e);
+                  inputRef.current?.blur();
+              }}>
             <input type={"input"}
-                   value={items} onChange={(e) => setItems(e.target.value)}
+                   value={item}
+                   onChange={(e) => setItem(e.target.value)}
                    placeholder={"Enter an item"} className={"input_box"}/>
             <button className={"input_submit"} type={"submit"}>Add</button>
         </form>
