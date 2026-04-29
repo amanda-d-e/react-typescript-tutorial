@@ -12,11 +12,6 @@ interface Props {
 const SingleItem: React.FC<Props> = ({item,items,setItems}) => {
     const [edit,setEdit] = useState<boolean>(false);
     const [editItem, setEditItem] = useState<string>(item.title);
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, [edit]);
 
     const handleEdit= (e:React.SyntheticEvent,id:number)=>{
         e.preventDefault();
@@ -24,6 +19,13 @@ const SingleItem: React.FC<Props> = ({item,items,setItems}) => {
         );
         setEdit(false);
     }
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [edit]);
+
     const handleDelete= (id:number)=>{
         setItems(items.filter((item)=> item.id !== id))
     }

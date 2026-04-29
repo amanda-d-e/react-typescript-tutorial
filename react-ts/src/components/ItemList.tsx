@@ -10,14 +10,37 @@ interface Props {
 
 const ItemList: React.FC<Props> = ({items,setItems}) => {
     return(
-        <div className={"items"}>
-            {items.map(item=>(
-                <SingleItem item={item}
-                            key={item.id}
+        <div className="container">
+            <div className="items">
+                <span className="item_heading">
+                    Rankings
+                </span>
+                {
+                    items.map((item)=> (
+                        <SingleItem
+                            item={item}
                             items={items}
+                            key={item.id}
                             setItems={setItems}
-                />
-            ))}
+                        />
+                    ))
+                }
+            </div>
+            <div className="items remove">
+                <span className="item_heading">
+                    Unranked
+                </span>
+                {
+                    items.map((item)=> (
+                        <SingleItem
+                            item={item}
+                            items={items}
+                            key={item.id}
+                            setItems={setItems}
+                        />
+                    ))
+                }
+            </div>
         </div>
     )
 }

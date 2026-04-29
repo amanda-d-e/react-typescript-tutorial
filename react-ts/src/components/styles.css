@@ -61,13 +61,23 @@
     background-color: #E6BAE8;
 }
 
+.remove {
+    background-color: #CE94D1;
+}
+
+.items_heading {
+    font-size: 30px;
+    /* text-align: center; */
+    color: white;
+}
+
 .items_single {
     display: flex;
     border-radius: 5px;
     padding: 20px;
     margin-top: 15px;
     transition: 0.2s;
-    background-color: #969696;
+    background-color: #EDCF7E;
 }
 
 .items_single:hover {
