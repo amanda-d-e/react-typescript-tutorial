@@ -1,30 +1,15 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import InputField from "./components/InputField";
 import {Item} from "./components/model";
 import ItemList from "./components/ItemList";
-/*
-interface Item {
-  title:string;
-  rank:number;
-}
-
-interface TVShow extends Item{
-  rating?:number; // ratings are optional
-}
-let items:Item[];
-
-function printTitle(title:string){
-  console.log(title);
-}
-
-printTitle("Nichijou");
-*/
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 const App: React.FC = () => {
     const [item, setItem] = useState<string>("");
     const [items, setItems] = useState<Item[]>([]);
+
+    const [unrankedItems, setUnrankedItems] = useState<Item[]>([])
 
     const handleAdd= (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -35,12 +20,57 @@ const App: React.FC = () => {
 
     }
 
+    const onDragEnd = (result: DropResult) => {
+        const { destination, source } = result;
+
+        if (!destination) return;
+
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) return;
+
+        let active = [...items];
+        let complete = [...unrankedItems];
+
+        let add: Item | undefined;
+
+        if (source.droppableId === "RankedItemsID") {
+            add = active[source.index];
+            active.splice(source.index, 1);
+        } else {
+            add = complete[source.index];
+            complete.splice(source.index, 1);
+        }
+
+        if (!add) return;
+
+        if (destination.droppableId === "RankedItemsID") {
+            active.splice(destination.index, 0, add);
+        } else {
+            complete.splice(destination.index, 0, add);
+        }
+
+        setItems(active);
+        setUnrankedItems(complete);
+    };
+
     return(
-      <div className={"App"}>
-        <span className={"heading"}>Ranked</span>
-          <InputField item={item} setItem={setItem} handleAdd={handleAdd}/>
-          <ItemList items={items} setItems={setItems}/>
-      </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+        <div className={"App"}>
+          <span className={"heading"}>Ranked</span>
+          <InputField item={item}
+                      setItem={setItem}
+                      handleAdd={handleAdd}
+          />
+          <ItemList items={items}
+                    setItems={setItems}
+                    unrankedItems={unrankedItems}
+                    setUnrankedItems={setUnrankedItems}
+          />
+        </div>
+        </DragDropContext>
+
     );
 }
 

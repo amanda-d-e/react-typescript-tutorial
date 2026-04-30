@@ -61,6 +61,14 @@
     background-color: #E6BAE8;
 }
 
+.dragactive {
+    background-color: rgb(0, 221, 236);
+}
+
+.dragcomplete {
+    background-color: rgb(255, 38, 0);
+}
+
 .remove {
     background-color: #CE94D1;
 }
@@ -78,6 +86,10 @@
     margin-top: 15px;
     transition: 0.2s;
     background-color: #EDCF7E;
+}
+
+.drag {
+    box-shadow: 0 0 20px black;
 }
 
 .items_single:hover {
